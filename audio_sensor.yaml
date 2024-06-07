@@ -6,7 +6,7 @@ esphome:
 external_components:
   - source:
       type: git
-      url: https://github.com/yourusername/esphome-audio-sensor
+      url: https://github.com/maddoglee/ESPHome-AudioSensor
       ref: main  # or whatever branch/tag you want to use
     components: [ audio_sensor ]
 
