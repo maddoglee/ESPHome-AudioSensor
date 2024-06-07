@@ -26,9 +26,6 @@ class AudioSensorComponent : public Component, public CustomAPIDevice {
     this->register_service(&AudioSensorComponent::detect_dishwasher, "detect_dishwasher");
   }
 
-}  // namespace audio_sensor
-}  // namespace esphome
-
   void loop() override {
     // This will be called by App.loop()
     static int32_t samples[SAMPLES];
@@ -149,3 +146,7 @@ class AudioSensorComponent : public Component, public CustomAPIDevice {
     return count;
   }
 };
+
+
+}  // namespace audio_sensor
+}  // namespace esphome
