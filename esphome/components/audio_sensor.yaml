@@ -1,9 +1,12 @@
 esphome:
-  name: audio_sensor
+  name: audio-sensor
   friendly_name: Audio Sensor
-  
+  #includes:
+  #  - audio_sensor.h
+
+
 esp32:
-  board: nodemcu-32s
+  board: esp32dev
   framework:
     type: esp-idf
 
@@ -11,20 +14,17 @@ external_components:
   - source:
       type: git
       url: https://github.com/maddoglee/ESPHome-AudioSensor
-      ref: main  # or whatever branch/tag you want to use
-    components: [ audio_sensor ]
+      #ref: main
+      #path: esphome/components
+    components: [audio_sensor]
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
+# Enable logging
+logger:
 
-  ap:
-    ssid: "audio_hostspot"
-    password: "fallback_password"
-
+# Enable Home Assistant API
 api:
   encryption:
-    key: XK835rxX5eOjH0MXc/b7P/yKiZ9+CG2al0xQpMrUzug=
+    key: "6ZHTBgBqhr3egZ0qgybB34np+iqLCikhgWfFFYZBa/Q="
   services:
     - service: detect_washing_machine
       then:
@@ -37,21 +37,28 @@ api:
         - lambda: 'id(audio_sensor).detect_dishwasher();'
 
 ota:
-logger:
+  password: "cb8116576ebec27e0f541de93fc53acf"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Audio-Sensor Fallback Hotspot"
+    password: "fallback123"
 
 web_server:
   port: 80
 
 i2s_audio:
-  i2s_lrclk_pin: GPIO15
+  i2s_lrclk_pin: GPIO25
   i2s_bclk_pin: GPIO14
-  i2s_din_pin: GPIO32
-  internal: true
+  #i2s_din_pin: GPIO32  # Corrected pin option
   id: i2s_audio_input
 
 custom_component:
   - lambda: |-
       auto audio_sensor = new AudioSensorComponent(id(i2s_audio_input));
       return {audio_sensor};
-  - includes:
-      - "audio_sensor/AudioSensorComponent.h"
+    id: audio_sensor  # Ensure the ID is defined here

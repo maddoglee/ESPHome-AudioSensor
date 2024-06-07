@@ -1,10 +1,18 @@
+#pragma once
+
 #include "esphome.h"
 #include "arduinoFFT.h"
+
+#include "esphome/core/component.h"
+#include "esphome/components/i2s_audio/i2s_audio.h"
 
 #define SAMPLES 1024
 #define OCTAVES 9
 
 const float aweighting[] = {-39.4, -26.2, -16.1, -8.6, -3.2, 0.0, 1.2, 1.0, -1.1};
+
+namespace esphome {
+namespace audio_sensor {
 
 class AudioSensorComponent : public Component, public CustomAPIDevice {
  public:
@@ -17,6 +25,9 @@ class AudioSensorComponent : public Component, public CustomAPIDevice {
     this->register_service(&AudioSensorComponent::detect_fire_alarm, "detect_fire_alarm");
     this->register_service(&AudioSensorComponent::detect_dishwasher, "detect_dishwasher");
   }
+
+}  // namespace audio_sensor
+}  // namespace esphome
 
   void loop() override {
     // This will be called by App.loop()
