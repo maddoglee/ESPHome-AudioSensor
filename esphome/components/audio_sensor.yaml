@@ -24,7 +24,7 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "6ZHTBgBqhr3egZ0qgybB34np+iqLCikhgWfFFYZBa/Q="
+    key:  !secret api_encryption_key
   services:
     - service: detect_washing_machine
       then:
@@ -37,7 +37,7 @@ api:
         - lambda: 'id(audio_sensor).detect_dishwasher();'
 
 ota:
-  password: "cb8116576ebec27e0f541de93fc53acf"
+  password: !secret ota_password
 
 wifi:
   ssid: !secret wifi_ssid
